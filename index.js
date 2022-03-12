@@ -52,3 +52,14 @@ async function fetch(url) {
  console.log(mostSpoken15Languages);
  
 
+/**
+ * Find the 10 most largest countries
+ */
+
+const tenMostlargestCountries = await fetch(API_URL).then(data => {
+  return data.map(({ name, area }) => [name.official, area])
+    .sort((a, b) => b[1] - a[1])
+    .splice(0, 10);
+});
+
+console.log(tenMostlargestCountries);
