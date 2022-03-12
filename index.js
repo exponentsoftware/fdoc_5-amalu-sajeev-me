@@ -19,3 +19,26 @@ async function fetch(url) {
   });
   return await response;
 }
+
+/**
+ * How many languages are there in the countries API
+ * Find the 15 most spoken languages
+
+ */
+
+
+ const languages = await fetch(API_URL).then((data) => {
+    let languages = data
+      .map((elem) => {
+        let arr = [];
+        for (let lang in elem.languages) arr.push(lang);
+        return arr;
+      })
+      .flat(3);
+    const uniqueLanguages = new Set(languages);
+    return Array.from(uniqueLanguages.values());
+  });
+console.log(languages.length);
+  // 153
+  
+  
