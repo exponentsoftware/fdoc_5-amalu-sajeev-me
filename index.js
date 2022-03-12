@@ -27,18 +27,28 @@ async function fetch(url) {
  */
 
 
- const languages = await fetch(API_URL).then((data) => {
-    let languages = data
-      .map((elem) => {
-        let arr = [];
-        for (let lang in elem.languages) arr.push(lang);
-        return arr;
-      })
-      .flat(3);
-    const uniqueLanguages = new Set(languages);
-    return Array.from(uniqueLanguages.values());
-  });
-console.log(languages.length);
-  // 153
-  
-  
+ const [languages, uniqueLanguages] = await fetch(API_URL).then((data) => {
+   let languages = data
+     .map((elem) => {
+       let arr = [];
+       for (let lang in elem.languages) arr.push(lang);
+       return arr;
+     })
+     .flat(3);
+   const uniqueLanguages = new Set(languages);
+   return [languages, Array.from(uniqueLanguages.values())];
+ });
+ console.log(uniqueLanguages.length);
+ // 153
+
+ let mostSpoken15Languages = uniqueLanguages
+   .map((elem) => [
+     elem,
+     languages.filter((filterElem) => elem === filterElem).length,
+   ])
+   .sort((a, b) => b[1] - a[1])
+   .splice(0, 15);
+
+ console.log(mostSpoken15Languages);
+ 
+
